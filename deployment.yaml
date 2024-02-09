@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catfact
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catfact
+      role: catfact
+  template:
+    metadata:
+      labels:
+        app: catfact
+        role: catfact
+    spec:
+      containers:
+      - name: catfact
+        image: catfact:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
