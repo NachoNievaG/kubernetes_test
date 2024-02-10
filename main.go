@@ -9,16 +9,15 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
 	slog.Info("Starting the application...")
 	r := mux.NewRouter()
 	r.HandleFunc("/api/v1/health", func(w http.ResponseWriter, r *http.Request) {
-		// sqrt
 		a := 0.0001
 		for i := 0; i < 1000000; i++ {
-			// sqrt of a
 			math.Sqrt(a)
 		}
 		w.WriteHeader(http.StatusOK)
@@ -53,6 +52,8 @@ func main() {
 		w.Write(b)
 	}).Methods("GET")
 
+	// add /prom handler
+	r.Handle("/metrics", promhttp.Handler())
 	slog.Info("Booting server...")
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
