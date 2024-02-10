@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: catfact
+  namespace: default
 spec:
   replicas: 3
   selector:
@@ -19,4 +20,12 @@ spec:
         image: catfact:latest
         imagePullPolicy: Never
         ports:
-        - containerPort: 80
+            - name: http
+              containerPort: 8080
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 500m 
